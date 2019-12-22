@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="images.png" />
+    <title>Sophos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"><!-- load bootstrap -->
+  	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script><!-- load angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  
+      <script src="logic.js"></script>
+      
+    <style>
+      #status-table{
+        margin-top: 50px;
+      }
+      .red{color: #ff0000};
+      .center{position: relative;width: 100%;margin-top: 500px;transform: translateY(-50%)}
+      .modebar, .modebar--hover{display: none;}
+      div.svg-container{height: 300px !important;}
+      .width{width: 100%}
+      
+    </style>  
+  </head>
+  <body>
+      
+      <nav class="navbar navbar-default" style="background-color: #284099 !important">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#" style="color: #fafafa">SOPHOS</a>
+            </div>
+          </div>
+      </nav>
+
+        
+    <div class="center" id="btn">
+      <div class="col-xs-12 col-sm-offset-5 col-md-6">
+        <!-- <button id="checkConnectivity" class="btn btn-primary">CLICK</button><br><br><br><br><br><br> -->
+        <button id="checkConnectivity" class="btn btn-primary">Scan & Check status</button><br><br><br><br><br><br>
+        
+        <img src="wifiLoader1.gif" id="imgid" style="display:none;left: 10%;position: absolute;"/>
+            
+      </div>
+    </div>
+    
+      <div class="container-fluid" id="checkStatus" style="display: none" ng-controller= "myCtrl" ng-app="myApp">
+          <div class="row">
+               <div class="col-xs-12 col-sm-4 col-md-4">
+                  <div id="myDiv" style="width: 480px; height: 300px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+               </div>
+          
+               <div id="status-table" class="col-xs-12 col-sm-8 col-md-8">
+            
+              <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Properties</th>
+                        <th>Optimal Level</th>
+                        <th>Status </th>
+                        <th>message </th>
+                        <th>Suggestion </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="prop in status.properties">
+                        <td>{{prop.name}}</td>
+                        <td width="20%">{{prop.detail}}</td>
+                        <td>
+                          <span ng-if="prop.status === 'true'" class="fa fa-check" style="color:#00ff00"></span>
+                          
+                          <span ng-if="prop.status === 'false'" class="fa fa-close red"></span>
+                          
+                          <span ng-if="prop.status === 'warning'" class="fa fa-warning " style="color:#ffc107"></span>
+                        </td>
+                        <td>{{prop.message}}</td>
+                        <td>{{prop.suggestion}}</td>
+                        
+                      </tr>
+                </tbody>
+              </table>
+            </div>
+          </div><br>
+        <div class="row">
+           <div class="col-xs-3"> 
+            <a id="back" class="btn btn-primary" href="#">Back</a>
+           </div> 
+        </div>
+      </div>  
+     
+    <script>
+       $('#checkConnectivity').click(function(){
+        $('#imgid').show(); //this is where you'll show your loading gif
+    
+        setTimeout(function(){$('#btn').hide();$('#checkStatus').show();}, 4000);
+      });
+      $('#back').click(function () {
+        $('#checkStatus').hide();
+        $('#imgid').hide();
+        $('#btn').show();
+        window.location = "http://localhost:3000/index.html";
+      });
+
+    </script>
+    
+   </body>
+</html>
